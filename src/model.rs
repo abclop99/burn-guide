@@ -5,7 +5,9 @@ use burn::{
         Dropout, DropoutConfig, Linear, LinearConfig, Relu,
     },
     prelude::*,
+    train::ClassificationOutput,
 };
+use nn::loss::{CrossEntropyLoss, CrossEntropyLossConfig};
 
 #[derive(Config, Debug)]
 pub struct ModelConfig {
