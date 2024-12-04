@@ -1,6 +1,7 @@
 use crate::model::ModelConfig;
 use burn::backend::Wgpu;
 
+mod data;
 mod model;
 
 fn main() {
