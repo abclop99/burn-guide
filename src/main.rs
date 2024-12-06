@@ -1,9 +1,11 @@
 use burn::{
     backend::{wgpu::WgpuDevice, Autodiff, Wgpu},
+    data::dataset::{vision::MnistDataset, Dataset as _},
     optim::AdamConfig,
 };
 
 mod data;
+mod inference;
 mod model;
 mod training;
 
@@ -15,9 +17,18 @@ fn main() {
 
     let device = WgpuDevice::default();
     let artifact_dir = "/tmp/guide";
+
+    // Training
     training::train::<MyAutodiffBackend>(
         artifact_dir,
         TrainingConfig::new(ModelConfig::new(10, 512), AdamConfig::new()),
         device.clone(),
+    );
+
+    // Inference
+    crate::inference::infer::<MyBackend>(
+        artifact_dir,
+        device,
+        MnistDataset::test().get(42).unwrap(),
     );
 }
