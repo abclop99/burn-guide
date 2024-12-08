@@ -11,6 +11,9 @@ mod training;
 
 use crate::{model::ModelConfig, training::TrainingConfig};
 
+/// The main function.
+///
+/// Runs the training then runs inference on a MNIST test item.
 fn main() {
     type MyBackend = Wgpu<f32, i32>;
     type MyAutodiffBackend = Autodiff<MyBackend>;

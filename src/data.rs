@@ -1,22 +1,40 @@
+//! The dataset
+
 use burn::{
     data::{dataloader::batcher::Batcher, dataset::vision::MnistItem},
     prelude::*,
 };
 
+/// Batcher fo MNIST data
 #[derive(Clone)]
 pub struct MnistBatcher<B: Backend> {
+    /// The device to create the data on.
     device: B::Device,
 }
 
 impl<B: Backend> MnistBatcher<B> {
+    /// Create a new [`MnistBatcher`].
+    ///
+    /// # Parameters
+    ///
+    /// - The device to put the [`MnistBatch`] data on.
+    ///
+    /// # Returns
+    ///
+    /// A [`MnistBatcher`]
     pub fn new(device: B::Device) -> Self {
         Self { device }
     }
 }
 
+/// A batch of MNIST data
 #[derive(Clone, Debug)]
 pub struct MnistBatch<B: Backend> {
+    /// The Mnist data images.
+    ///
+    /// Format: [B, H, W]
     pub images: Tensor<B, 3>,
+    /// The ground truth labels for the MNIST data.
     pub targets: Tensor<B, 1, Int>,
 }
 
