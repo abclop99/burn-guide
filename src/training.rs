@@ -1,8 +1,5 @@
 use burn::{
-    data::{
-        dataloader::{DataLoader, DataLoaderBuilder},
-        dataset::vision::MnistDataset,
-    },
+    data::{dataloader::DataLoaderBuilder, dataset::vision::MnistDataset},
     nn::loss::CrossEntropyLossConfig,
     optim::AdamConfig,
     prelude::*,

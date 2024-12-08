@@ -5,9 +5,7 @@ use burn::{
         Dropout, DropoutConfig, Linear, LinearConfig, Relu,
     },
     prelude::*,
-    train::ClassificationOutput,
 };
-use nn::loss::{CrossEntropyLoss, CrossEntropyLossConfig};
 
 /// The configuration for a MNIST type model
 #[derive(Config, Debug)]
