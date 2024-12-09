@@ -71,3 +71,21 @@ cfg_if! {
         compile_error!("None of the backend features were enabled. Exactly one must be enabled.");
     }
 }
+
+/// Tests
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+
+    /// Ensure that the device [`get_device`] returns is of the type
+    /// associated with the [`Backend`].
+    #[test]
+    fn backend_and_device_types_compatible() {
+        use burn::{backend::Autodiff, prelude::Backend};
+
+        type MyAutoDiffBackend = Autodiff<super::Backend>;
+
+        let _device: <MyAutoDiffBackend as Backend>::Device = get_device();
+    }
+}
