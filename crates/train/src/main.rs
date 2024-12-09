@@ -1,9 +1,6 @@
 //! Training
 
-use burn::{
-    backend::{wgpu::WgpuDevice, Autodiff, Wgpu},
-    optim::AdamConfig,
-};
+use burn::{backend::Autodiff, optim::AdamConfig};
 
 use model::{
     model::ModelConfig,
@@ -11,10 +8,9 @@ use model::{
 };
 
 fn main() {
-    type MyBackend = Wgpu<f32, i32>;
-    type MyAutodiffBackend = Autodiff<MyBackend>;
+    type MyAutodiffBackend = Autodiff<backend::Backend>;
 
-    let device = WgpuDevice::default();
+    let device = backend::get_device();
     let artifact_dir = "/tmp/guide";
 
     // Training

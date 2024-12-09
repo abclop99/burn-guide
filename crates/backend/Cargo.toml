@@ -1,0 +1,18 @@
+[package]
+name = "backend"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+# Features for selecting a specific backend
+ndarray = [ "burn/ndarray" ]
+ndarray-blas-accelerate = [ "burn/ndarray", "burn/accelerate" ]
+ndarray-blas-netlib = [ "burn/ndarray", "burn/blas-netlib" ]
+ndarray-blas-openblas = [ "burn/ndarray", "burn/openblas" ]
+tch-cpu = [ "burn/tch" ]
+tch-gpu = [ "burn/tch" ]
+wgpu = [ "burn/wgpu" ]
+
+[dependencies]
+burn = { workspace = true, features = [ ] }
+model = { path = "../model" }

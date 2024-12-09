@@ -3,6 +3,18 @@ name = "train"
 version = "0.1.0"
 edition = "2021"
 
+[features]
+# Features for selecting a specific backend
+ndarray = [ "backend/ndarray" ]
+ndarray-blas-accelerate = [ "backend/ndarray-blas-accelerate" ]
+ndarray-blas-netlib = [ "backend/ndarray-blas-netlib" ]
+ndarray-blas-openblas = [ "backend/ndarray-blas-openblas" ]
+tch-cpu = [ "backend/tch-cpu" ]
+tch-gpu = [ "backend/tch-gpu" ]
+wgpu = [ "backend/wgpu" ]
+
 [dependencies]
-burn = { workspace = true, features = [ "wgpu" ] }
+burn = { workspace = true, features = [ ] }
+
+backend = { path = "../backend" }
 model = { path = "../model", features = [ "train" ] }
