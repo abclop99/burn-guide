@@ -11,10 +11,10 @@ cfg_if! {
 
             use burn::backend::{wgpu::WgpuDevice, Wgpu};
 
-            /// The backend to use.
+            /// The backend ([`Wgpu`]) to use.
             pub type Backend = Wgpu<f32, i32>;
 
-            /// Select a device
+            /// Select a device for the [`Backend`]
             pub fn get_device() -> WgpuDevice {
                 WgpuDevice::default()
             }
@@ -24,10 +24,10 @@ cfg_if! {
 
             use burn::backend::libtorch::{LibTorch, LibTorchDevice};
 
-            /// The backend to use.
+            /// The backend ([`LibTorch`]) to use.
             pub type Backend = LibTorch<f32, i8>;
 
-            /// Select a device
+            /// Select a device for the [`Backend`] (GPU)
             pub fn get_device() -> LibTorchDevice {
                 if cfg!(target_os = "macos") {
                     LibTorchDevice::Mps
@@ -41,10 +41,10 @@ cfg_if! {
 
             use burn::backend::libtorch::{LibTorch, LibTorchDevice};
 
-            /// The backend to use.
+            /// The backend ([`LibTorch`]) to use.
             pub type Backend = LibTorch;
 
-            /// Select a device
+            /// Select a device for the [`Backend`] (CPU)
             pub fn get_device() -> LibTorchDevice {
                 LibTorchDevice::Cpu
             }
@@ -59,10 +59,10 @@ cfg_if! {
 
             use burn::backend::ndarray::{NdArray, NdArrayDevice};
 
-            /// The backend to use.
+            /// The backend ([`Ndarray`]) to use.
             pub type Backend = NdArray<f32, i32>;
 
-            /// Select a device
+            /// Select a device for the [`Backend`]
             pub fn get_device() -> NdArrayDevice {
                 NdArrayDevice::Cpu
             }
