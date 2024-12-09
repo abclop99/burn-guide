@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
+default = [ "ndarray" ]
 # Features for selecting a specific backend
 ndarray = [ "burn/ndarray" ]
 ndarray-blas-accelerate = [ "burn/ndarray", "burn/accelerate" ]
@@ -15,4 +16,5 @@ wgpu = [ "burn/wgpu" ]
 
 [dependencies]
 burn = { workspace = true, features = [ ] }
+cfg-if = "1.0.0"
 model = { path = "../model" }
