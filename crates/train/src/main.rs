@@ -5,9 +5,9 @@ use burn::{
     optim::AdamConfig,
 };
 
-use guide::{
+use model::{
     model::ModelConfig,
-    training::{self, TrainingConfig},
+    training::{train, TrainingConfig},
 };
 
 fn main() {
@@ -18,7 +18,7 @@ fn main() {
     let artifact_dir = "/tmp/guide";
 
     // Training
-    training::train::<MyAutodiffBackend>(
+    train::<MyAutodiffBackend>(
         artifact_dir,
         TrainingConfig::new(ModelConfig::new(10, 512), AdamConfig::new()),
         device.clone(),

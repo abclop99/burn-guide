@@ -5,7 +5,7 @@ use burn::{
     data::dataset::{vision::MnistDataset, Dataset as _},
 };
 
-use guide::inference;
+use model::inference;
 
 fn main() {
     type MyBackend = Wgpu<f32, i32>;

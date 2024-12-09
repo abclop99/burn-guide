@@ -1,0 +1,10 @@
+[[language]]
+name = "rust"
+
+
+
+[language-server.rust-analyzer.config]
+# Enable `cfg(rust_analyzeer)`
+# environment.RUSTFLAGS = "--cfg rust_analyzer"
+# config = { cargo = { features = ["all"] } }
+cargo.features = "all"

@@ -1,0 +1,10 @@
+[package]
+name = "model"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+train = [ "burn/train" ]
+
+[dependencies]
+burn = { workspace = true, features = [ "dataset", "vision" ] }
