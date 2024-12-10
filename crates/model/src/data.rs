@@ -67,3 +67,31 @@ impl<B: Backend> Batcher<MnistItem, MnistBatch<B>> for MnistBatcher<B> {
         MnistBatch { images, targets }
     }
 }
+
+/// Tests for data
+#[cfg(test)]
+mod test {
+    use burn::data::dataset::{vision::MnistDataset, Dataset as _};
+    use burn::data::{dataloader::batcher::Batcher as _, dataset::vision::MnistItem};
+    use pretty_assertions::assert_eq;
+
+    use super::MnistBatcher;
+
+    /// Tests using [`MnistBatcher`] a bit.
+    #[test]
+    fn mnist_batcher() {
+        let device = backend::get_device();
+
+        // Get an item
+        let dataset = MnistDataset::test();
+        let items: Vec<MnistItem> = (0..50).map(|i| dataset.get(i).unwrap()).collect();
+
+        // Set up data
+        let _labels: Vec<_> = items.iter().map(|item| item.label).collect();
+        let batcher: MnistBatcher<backend::Backend> = MnistBatcher::new(device);
+        let batch = batcher.batch(items);
+
+        // Same number of images and targets.
+        assert_eq!(batch.images.dims()[0], batch.targets.dims()[0]);
+    }
+}

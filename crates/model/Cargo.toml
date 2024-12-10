@@ -9,3 +9,7 @@ train = [ "burn/train" ]
 
 [dependencies]
 burn = { workspace = true, features = [ "dataset", "vision" ] }
+
+[dev-dependencies]
+backend = { path = "../backend" }
+pretty_assertions = "1.4.1"
