@@ -17,6 +17,6 @@ fn main() {
     train::<MyAutodiffBackend>(
         artifact_dir,
         TrainingConfig::new(ModelConfig::new(10, 512), AdamConfig::new()),
-        device.clone(),
+        device,
     );
 }
