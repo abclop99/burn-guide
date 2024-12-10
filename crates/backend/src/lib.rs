@@ -6,7 +6,10 @@ pub use specified_backend::*;
 
 // Select a Burn backend
 cfg_if! {
-    if #[cfg(feature = "wgpu")] {
+    if #[cfg(any(
+            feature = "wgpu",
+            feature = "wgpu-spirv",
+        ))] {
         mod specified_backend {
 
             use burn::backend::{wgpu::WgpuDevice, Wgpu};
@@ -17,6 +20,23 @@ cfg_if! {
             /// Select a device for the [`Backend`]
             pub fn get_device() -> WgpuDevice {
                 WgpuDevice::default()
+            }
+        }
+    } else if #[cfg(feature = "candle-gpu")] {
+        mod specified_backend {
+
+            use burn::backend::candle::{Candle, CandleDevice};
+
+            /// The backend ([`LibTorch`]) to use.
+            pub type Backend = Candle<f32, i64>;
+
+            /// Select a device for the [`Backend`] (GPU)
+            pub fn get_device() -> CandleDevice {
+                if cfg!(target_os = "macos") {
+                    CandleDevice::metal(0)
+                } else {
+                    CandleDevice::cuda(0)
+                }
             }
         }
     } else if #[cfg(feature = "tch-gpu")] {
@@ -34,6 +54,19 @@ cfg_if! {
                 } else {
                     LibTorchDevice::Cuda(0)
                 }
+            }
+        }
+    } else if #[cfg(feature = "candle-cpu")] {
+        mod specified_backend {
+
+            use burn::backend::candle::{Candle, CandleDevice};
+
+            /// The backend ([`LibTorch`]) to use.
+            pub type Backend = Candle<f32, i64>;
+
+            /// Select a device for the [`Backend`] (GPU)
+            pub fn get_device() -> CandleDevice {
+                CandleDevice::Cpu
             }
         }
     } else if #[cfg(feature = "tch-cpu")] {

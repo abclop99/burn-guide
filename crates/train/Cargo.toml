@@ -12,7 +12,10 @@ ndarray-blas-netlib = [ "backend/ndarray-blas-netlib" ]
 ndarray-blas-openblas = [ "backend/ndarray-blas-openblas" ]
 tch-cpu = [ "backend/tch-cpu" ]
 tch-gpu = [ "backend/tch-gpu" ]
+candle-cpu = [ "backend/candle-cpu" ]
+candle-gpu = [ "backend/candle-gpu" ]
 wgpu = [ "backend/wgpu" ]
+wgpu-spirv = [ "backend/wgpu-spirv" ]
 
 [dependencies]
 burn = { workspace = true, features = [ ] }

@@ -6,14 +6,19 @@ rust-version = "1.81.0"
 
 [features]
 default = [ "ndarray" ]
+
 # Features for selecting a specific backend
+# See: https://docs.rs/burn/latest/burn/#feature-flags
 ndarray = [ "burn/ndarray" ]
 ndarray-blas-accelerate = [ "burn/ndarray", "burn/accelerate" ]
 ndarray-blas-netlib = [ "burn/ndarray", "burn/blas-netlib" ]
 ndarray-blas-openblas = [ "burn/ndarray", "burn/openblas" ]
 tch-cpu = [ "burn/tch" ]
 tch-gpu = [ "burn/tch" ]
+candle-cpu = [ "burn/candle" ]
+candle-gpu = [ "burn/candle-cuda" ]
 wgpu = [ "burn/wgpu" ]
+wgpu-spirv = [ "burn/wgpu-spirv" ] # Note: not tested
 
 [dependencies]
 burn = { workspace = true, features = [ ] }

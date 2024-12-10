@@ -1,7 +1,7 @@
 use burn::{
     nn::{
         conv::{Conv2d, Conv2dConfig},
-        pool::{AdaptiveAvgPool2d, AdaptiveAvgPool2dConfig},
+        pool::{MaxPool2d, MaxPool2dConfig},
         Dropout, DropoutConfig, Linear, LinearConfig, Relu,
     },
     prelude::*,
@@ -26,7 +26,7 @@ impl ModelConfig {
         Model {
             conv1: Conv2dConfig::new([1, 8], [3, 3]).init(device),
             conv2: Conv2dConfig::new([8, 16], [3, 3]).init(device),
-            pool: AdaptiveAvgPool2dConfig::new([8, 8]).init(),
+            pool: MaxPool2dConfig::new([3, 3]).with_strides([3, 3]).init(),
             activation: Relu::new(),
             linear1: LinearConfig::new(16 * 8 * 8, self.hidden_size).init(device),
             linear2: LinearConfig::new(self.hidden_size, self.num_classes).init(device),
@@ -43,7 +43,7 @@ pub struct Model<B: Backend> {
     /// The second convolution layer
     conv2: Conv2d<B>,
     /// The pooling layer
-    pool: AdaptiveAvgPool2d,
+    pool: MaxPool2d,
     /// The dropout layers
     dropout: Dropout,
     /// The first linear layer
