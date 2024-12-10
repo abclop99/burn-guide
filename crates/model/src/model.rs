@@ -88,3 +88,41 @@ impl<B: Backend> Model<B> {
         self.linear2.forward(x)
     }
 }
+
+/// Tests for the model
+#[cfg(test)]
+mod test {
+
+    use pretty_assertions::assert_eq;
+
+    /// Run the model
+    #[test]
+    fn run_model() {
+        let device = backend::get_device();
+
+        // Initialize a model
+        let config = super::ModelConfig::new(10, 512);
+        let model: super::Model<backend::Backend> = config.init(&device);
+
+        // Get a batch of data
+        let batch = crate::data::test::get_batch(device);
+
+        // Run model
+        let predictions = model.forward(batch.images.clone());
+
+        // Test the batch size
+        assert_eq!(
+            batch.images.dims()[0],
+            predictions.dims()[0],
+            "The batch size of the images and predictions should be the same."
+        );
+
+        // Test the batch size
+        assert_eq!(
+            predictions.dims()[1],
+            config.num_classes,
+            "The number of classes should be {}",
+            config.num_classes,
+        );
+    }
+}

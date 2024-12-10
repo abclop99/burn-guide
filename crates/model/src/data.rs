@@ -70,28 +70,49 @@ impl<B: Backend> Batcher<MnistItem, MnistBatch<B>> for MnistBatcher<B> {
 
 /// Tests for data
 #[cfg(test)]
-mod test {
+pub(crate) mod test {
+    use burn::data::dataloader::batcher::Batcher as _;
+    use burn::data::dataset::vision::MnistItem;
     use burn::data::dataset::{vision::MnistDataset, Dataset as _};
-    use burn::data::{dataloader::batcher::Batcher as _, dataset::vision::MnistItem};
+    use burn::prelude::*;
     use pretty_assertions::assert_eq;
 
-    use super::MnistBatcher;
+    use super::{MnistBatch, MnistBatcher};
 
-    /// Tests using [`MnistBatcher`] a bit.
-    #[test]
-    fn mnist_batcher() {
-        let device = backend::get_device();
-
+    /// Get a batch of data for testing
+    ///
+    /// # Parameters
+    ///
+    /// - `device`: The device to create the batch on.
+    ///
+    /// # Returns
+    ///
+    /// - A batch of data.
+    pub(crate) fn get_batch<B: Backend>(device: B::Device) -> MnistBatch<B> {
         // Get an item
         let dataset = MnistDataset::test();
         let items: Vec<MnistItem> = (0..50).map(|i| dataset.get(i).unwrap()).collect();
 
         // Set up data
         let _labels: Vec<_> = items.iter().map(|item| item.label).collect();
-        let batcher: MnistBatcher<backend::Backend> = MnistBatcher::new(device);
+        let batcher: MnistBatcher<B> = MnistBatcher::new(device);
         let batch = batcher.batch(items);
 
+        batch
+    }
+
+    /// Tests using [`MnistBatcher`] a bit.
+    #[test]
+    fn mnist_batcher() {
+        let device = backend::get_device();
+
+        let batch = get_batch::<backend::Backend>(device);
+
         // Same number of images and targets.
-        assert_eq!(batch.images.dims()[0], batch.targets.dims()[0]);
+        assert_eq!(
+            batch.images.dims()[0],
+            batch.targets.dims()[0],
+            "The batch size of the images and targets should be the same."
+        );
     }
 }
