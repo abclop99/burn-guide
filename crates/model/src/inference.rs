@@ -13,15 +13,6 @@ use crate::{data::MnistBatcher, model::ModelConfig};
 pub struct InferenceConfig {
     /// Configuration for the model
     pub model: ModelConfig,
-    /// The batch size
-    #[config(default = 64)]
-    pub batch_size: usize,
-    /// The number of workers for the [`DataLoader`]s
-    #[config(default = 4)]
-    pub num_workers: usize,
-    /// The seed for random operations
-    #[config(default = 42)]
-    pub seed: u64,
 }
 
 /// Runs inference with a trained model
@@ -36,14 +27,14 @@ pub struct InferenceConfig {
 ///     A single MNIST item to run the inference on.
 pub fn infer<B: Backend>(artifact_dir: &str, device: B::Device, item: MnistItem) {
     // Set up training
-    let config = InferenceConfig::load(format!("{artifact_dir}/config.json"))
+    let model_config = InferenceConfig::load(format!("{artifact_dir}/config.json"))
         .expect("Config should exist for the model");
     let record = CompactRecorder::new()
         .load(format!("{artifact_dir}/model").into(), &device)
         .expect("Trained model should exist");
 
     // Create the model
-    let model = config.model.init::<B>(&device).load_record(record);
+    let model = model_config.model.init::<B>(&device).load_record(record);
 
     // Set up data
     let label = item.label;
